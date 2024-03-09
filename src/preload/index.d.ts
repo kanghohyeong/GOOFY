@@ -5,6 +5,7 @@ declare global {
     electron: ElectronAPI
     api: {
       getModelFile: () => Promise<string | null>
+      squeezeText: (string, number) => Promise<string>
     }
   }
 }

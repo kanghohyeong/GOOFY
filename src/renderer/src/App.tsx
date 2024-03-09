@@ -1,21 +1,27 @@
-import { useState } from 'react'
-import Versions from './components/Versions'
+import Home from './pages/Home'
+import { useRecoilValue } from 'recoil'
+import { pageState } from './state/AppState'
+import Squeeze from './pages/Squeeze'
 
 function App(): JSX.Element {
-  const [modelPath, setModelPath] = useState<string | null>(null)
-  const getModelFile = async (): Promise<string | null> => {
-    const filePath = await window.api.getModelFile()
-    setModelPath(filePath)
-    return filePath
+  const page = useRecoilValue(pageState)
+
+  const getPage = (): JSX.Element => {
+    switch (page) {
+      case 'Home':
+        return <Home />
+      case 'Squeeze':
+        return <Squeeze />
+      default:
+        return <div>hi</div>
+    }
   }
 
   return (
-    <>
-      <p>import gguf models</p>
-      <button onClick={getModelFile}>import</button>
-      <p>{modelPath ?? 'please import'}</p>
-      <Versions></Versions>
-    </>
+    <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div className="gradient" />
+      {getPage()}
+    </div>
   )
 }
 

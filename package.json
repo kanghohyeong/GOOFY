@@ -22,7 +22,10 @@
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.0",
-    "@electron-toolkit/utils": "^3.0.0"
+    "@electron-toolkit/utils": "^3.0.0",
+    "@langchain/community": "^0.0.35",
+    "node-llama-cpp": "^2.8.8",
+    "recoil": "^0.7.7"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config-prettier": "^2.0.0",
@@ -41,6 +44,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typescript": "^5.3.3",
-    "vite": "^5.0.12"
+    "vite": "^5.0.12",
+    "vite-plugin-svgr": "^4.2.0"
   }
 }

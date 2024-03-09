@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { getFile } from './file/api'
+import { getFile, squeeze } from './file/api'
 
 function createWindow(): void {
   // Create the browser window.
@@ -54,6 +54,9 @@ app.whenReady().then(() => {
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
   ipcMain.handle('get-gguf-model', getFile)
+  ipcMain.handle('squeeze-text', async (event, ...args) => {
+    return await squeeze(args[0], args[1])
+  })
 
   createWindow()
 
