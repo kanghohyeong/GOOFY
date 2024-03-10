@@ -28,6 +28,7 @@ const Squeeze = (): JSX.Element => {
         cols={80}
         rows={20}
         value={shorterText ? shorterText : text}
+        disabled={shorterText ? true : false}
         onChange={(e) => {
           const value = e.target.value
           shorterText ? setShorterText(value) : setText(value)

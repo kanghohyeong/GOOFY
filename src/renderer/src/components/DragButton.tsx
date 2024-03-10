@@ -1,4 +1,5 @@
 import { MouseEventHandler, useEffect, useRef, useState } from 'react'
+import Spinner from '@renderer/assets/gear-spinner.svg?react'
 
 type ButtonProps = {
   description: string
@@ -15,13 +16,14 @@ const DragButton = ({
 }: ButtonProps): JSX.Element => {
   const [position, setPosition] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
+  const [isProcessing, setISProcessing] = useState(false)
   const draggable = useRef<HTMLDivElement>(null)
   const descP = useRef<HTMLParagraphElement>(null)
 
   useEffect(() => {
     if (descP.current == null) return
 
-    setInterval(() => {
+    const itv = setInterval(() => {
       const letters = '0123456789ABCDEF'
       let color = '#'
       for (let i = 0; i < 6; i++) {
@@ -30,9 +32,11 @@ const DragButton = ({
 
       descP.current!.style.color = color
     }, 1000)
+    return () => clearInterval(itv)
   }, [descP.current])
 
   const handleMouseDown: MouseEventHandler = (e) => {
+    if (isProcessing) return
     setIsDragging(true)
     e.preventDefault()
   }
@@ -54,7 +58,7 @@ const DragButton = ({
     }
   }
 
-  const handleMouseUp: MouseEventHandler<HTMLDivElement> = (e) => {
+  const handleMouseUp: MouseEventHandler<HTMLDivElement> = async (e) => {
     if (isDragging) {
       setIsDragging(false)
       if (
@@ -62,22 +66,36 @@ const DragButton = ({
         (e.currentTarget as HTMLDivElement).offsetWidth -
           (draggable.current as HTMLDivElement).offsetWidth
       ) {
-        activeCallback()
+        setISProcessing(true)
+        const result = activeCallback()
+
+        if (result instanceof Promise) {
+          await result
+        }
       }
+      setISProcessing(false)
       setPosition(0)
     }
   }
 
-  const handleMouseLeave: MouseEventHandler<HTMLDivElement> = (e) => {
-    setIsDragging(false)
-    if (
-      position >=
-      (e.currentTarget as HTMLDivElement).offsetWidth -
-        (draggable.current as HTMLDivElement).offsetWidth
-    ) {
-      activeCallback()
+  const handleMouseLeave: MouseEventHandler<HTMLDivElement> = async (e) => {
+    if (isDragging) {
+      setIsDragging(false)
+      if (
+        position >=
+        (e.currentTarget as HTMLDivElement).offsetWidth -
+          (draggable.current as HTMLDivElement).offsetWidth
+      ) {
+        setISProcessing(true)
+        const result = activeCallback()
+
+        if (result instanceof Promise) {
+          await result
+        }
+      }
+      setISProcessing(false)
+      setPosition(0)
     }
-    setPosition(0)
   }
 
   return (
@@ -102,27 +120,35 @@ const DragButton = ({
           position: 'relative',
           width: '100px',
           height: '50px',
-          backgroundColor: '#eee',
+          backgroundColor: isProcessing ? '#333' : '#eee',
           borderRadius: '25px',
-          cursor: 'pointer',
-          color: 'black',
-          textAlign: 'center',
-          lineHeight: '3',
-          fontStyle: 'italic',
+          cursor: isProcessing ? 'default' : 'pointer',
+          color: isProcessing ? 'white' : 'black',
           transform: `translateX(${position}px)`,
           transition: `${position ? null : 'transform 0.3s ease'}`,
-          zIndex: 1
+          zIndex: 1,
+          boxShadow: '2px 2px rgba(100,100,100,1)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
         }}
         ref={draggable}
         onMouseDown={handleMouseDown}
       >
-        slide
+        {isProcessing ? (
+          <Spinner width={'30px'} height={'30px'} />
+        ) : (
+          <p style={{ textAlign: 'center', lineHeight: '3', fontStyle: 'italic', width: '100%' }}>
+            slide
+          </p>
+        )}
       </div>
       <p
         style={{
           position: 'absolute',
           right: 10,
           top: 0,
+          fontWeight: 'bold',
           transform: 'translateY(50%)',
           transition: 'color 1s ease'
         }}

@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { getFile, squeeze } from './file/api'
+import { findModelFile, squeeze } from './file/api'
 
 function createWindow(): void {
   // Create the browser window.
@@ -37,6 +37,14 @@ function createWindow(): void {
   }
 }
 
+const registerIpcHandler = (): void => {
+  ipcMain.on('ping', () => console.log('pong'))
+  ipcMain.handle('get-gguf-model', findModelFile)
+  ipcMain.handle('squeeze-text', async (event, ...args) => {
+    return await squeeze(args[0], args[1])
+  })
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -51,12 +59,7 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // IPC test
-  ipcMain.on('ping', () => console.log('pong'))
-  ipcMain.handle('get-gguf-model', getFile)
-  ipcMain.handle('squeeze-text', async (event, ...args) => {
-    return await squeeze(args[0], args[1])
-  })
+  registerIpcHandler()
 
   createWindow()
 
