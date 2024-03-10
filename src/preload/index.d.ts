@@ -6,6 +6,7 @@ declare global {
     api: {
       getModelFile: () => Promise<string | null>
       squeezeText: (string, number) => Promise<string>
+      emojiText: (string) => Promise<string>
     }
   }
 }

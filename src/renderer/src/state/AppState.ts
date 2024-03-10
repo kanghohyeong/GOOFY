@@ -1,8 +1,7 @@
+import { PageKey } from '@renderer/pages/PageInfo'
 import { atom } from 'recoil'
 
-type PP = 'Home' | 'Squeeze'
-
-const pageState = atom<PP>({
+const pageState = atom<PageKey>({
   key: 'pageState',
   default: 'Home'
 })

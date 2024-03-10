@@ -5,7 +5,8 @@ import { electronAPI } from '@electron-toolkit/preload'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const api: any = {
   getModelFile: () => ipcRenderer.invoke('get-gguf-model'),
-  squeezeText: (text: string, length: number) => ipcRenderer.invoke('squeeze-text', text, length)
+  squeezeText: (text: string, length: number) => ipcRenderer.invoke('squeeze-text', text, length),
+  emojiText: (text: string) => ipcRenderer.invoke('emoji-text', text)
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

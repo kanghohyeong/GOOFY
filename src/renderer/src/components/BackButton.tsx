@@ -6,7 +6,7 @@ import { useSetRecoilState } from 'recoil'
 const BackButton = (): JSX.Element => {
   const setPage = useSetRecoilState(pageState)
   const handleOnClick: MouseEventHandler = () => {
-    setPage('Home')
+    setPage('UtilList')
   }
   return (
     <>

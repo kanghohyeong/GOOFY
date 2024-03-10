@@ -21,7 +21,7 @@ const Home = (): JSX.Element => {
       image!.style.fill = 'red'
       return
     }
-    setPage('Squeeze')
+    setPage('UtilList')
   }
 
   return (

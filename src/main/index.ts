@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { findModelFile, squeeze } from './file/api'
+import { emoji, findModelFile, squeeze } from './file/api'
 
 function createWindow(): void {
   // Create the browser window.
@@ -42,6 +42,9 @@ const registerIpcHandler = (): void => {
   ipcMain.handle('get-gguf-model', findModelFile)
   ipcMain.handle('squeeze-text', async (event, ...args) => {
     return await squeeze(args[0], args[1])
+  })
+  ipcMain.handle('emoji-text', async (event, ...args) => {
+    return await emoji(args[0])
   })
 }
 
