@@ -1,5 +1,6 @@
 import BackButton from '@renderer/components/BackButton'
 import DragButton from '@renderer/components/DragButton'
+import HomeButton from '@renderer/components/HomeButton'
 import { useState } from 'react'
 
 const Emojimo = (): JSX.Element => {
@@ -20,6 +21,7 @@ const Emojimo = (): JSX.Element => {
 
   return (
     <>
+      <HomeButton />
       <BackButton />
       <div style={{ fontSize: '40px', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>Emojimo</div>
       <input

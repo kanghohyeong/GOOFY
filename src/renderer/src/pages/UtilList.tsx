@@ -3,6 +3,7 @@ import pageInfos from './PageInfo'
 import { useSetRecoilState } from 'recoil'
 import { pageState } from '@renderer/state/AppState'
 import { useState } from 'react'
+import HomeButton from '@renderer/components/HomeButton'
 
 const UtilList = (): JSX.Element => {
   const setPage = useSetRecoilState(pageState)
@@ -10,6 +11,7 @@ const UtilList = (): JSX.Element => {
 
   return (
     <>
+      <HomeButton />
       {pageInfos
         .filter(({ isConfigPage }) => isConfigPage !== true)
         .map(({ key, description }) => {

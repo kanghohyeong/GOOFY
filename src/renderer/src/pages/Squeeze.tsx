@@ -1,5 +1,6 @@
 import BackButton from '@renderer/components/BackButton'
 import DragButton from '@renderer/components/DragButton'
+import HomeButton from '@renderer/components/HomeButton'
 import { useState } from 'react'
 
 const Squeeze = (): JSX.Element => {
@@ -21,6 +22,7 @@ const Squeeze = (): JSX.Element => {
   }
   return (
     <div style={{ paddingBottom: '10%', display: 'flex', flexDirection: 'column' }}>
+      <HomeButton />
       <BackButton />
       <div style={{ fontSize: '40px', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>SQUEEZE</div>
       <textarea
