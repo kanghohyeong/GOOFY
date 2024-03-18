@@ -64,7 +64,8 @@ const retrieveSingleLlmResponse = async (
   const llm = await import('@langchain/community/chat_models/llama_cpp')
   const model = new llm.ChatLlamaCpp({
     modelPath: modelPath,
-    verbose: true
+    verbose: true,
+    batchSize: 1024
   })
 
   const shotMessages =
