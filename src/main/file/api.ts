@@ -23,6 +23,7 @@ const findModelFile = (): string | null => {
 
 const squeeze = async (inputText: string, length: number): Promise<string> => {
   return await retrieveSingleLlmResponse(
+    modelPath,
     "You are a sincere assistant. Performs the user's request without exception. Do not write explanations on replies.",
     `${inputText} \n ------------- \n make this text into approximately ${length} characters.`
   )
@@ -30,6 +31,7 @@ const squeeze = async (inputText: string, length: number): Promise<string> => {
 
 const emoji = async (text: string): Promise<string> => {
   return await retrieveSingleLlmResponse(
+    modelPath,
     `You are text-to-emoji converter.`,
     `Give me an emoji unicode that can represent the input string. input string =  "${text}"`,
     [
@@ -52,6 +54,7 @@ interface IShot {
 }
 
 const retrieveSingleLlmResponse = async (
+  modelPath: string,
   systemPrompt: string,
   instruction: string,
   fewShots?: IShot[]
